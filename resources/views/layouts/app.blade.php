@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,23 +5,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Focus - Bootstrap Admin Dashboard </title>
+    <title>Focus - Bootstrap Admin Dashboard</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
-    <link rel="stylesheet" href="./vendor/owl-carousel/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="./vendor/owl-carousel/css/owl.theme.default.min.css">
-    <link href="./vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
-
-
-
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/owl-carousel/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/owl-carousel/css/owl.theme.default.min.css') }}">
+    <link href="{{ asset('vendor/jqvmap/css/jqvmap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 
 <body>
 
-    <!--*******************
-        Preloader start
-    ********************-->
+    <!-- Preloader start -->
     <div id="preloader">
         <div class="sk-three-bounce">
             <div class="sk-child sk-bounce1"></div>
@@ -31,39 +24,32 @@
             <div class="sk-child sk-bounce3"></div>
         </div>
     </div>
-    <!--*******************
-        Preloader end
-    ********************-->
+    <!-- Preloader end -->
 
-
-    <!--**********************************
-        Main wrapper start
-    ***********************************-->
+    <!-- Main wrapper start -->
     <div id="main-wrapper">
 
-        <!--**********************************
-            Nav header start
-        ***********************************-->
+        <!-- Nav header start -->
         <div class="nav-header">
-            <a href="index.html" class="brand-logo">
-                <img class="logo-abbr" src="./images/logo.png" alt="">
-                <img class="logo-compact" src="./images/logo-text.png" alt="">
-                <img class="brand-title" src="./images/logo-text.png" alt="">
-            </a>
-
+    <a href="{{ 
+        Auth::check() ? 
+            (Auth::user()->role == 'admin' ? route('admin.dashboard') : 
+            (Auth::user()->role == 'petugas' ? route('petugas.dashboard') : route('peminjam.dashboard'))) 
+            : route('login') 
+    }}" class="brand-logo">
+        <img class="logo-abbr" src="{{ asset('images/logo.png') }}" alt="">
+        <img class="logo-compact" src="{{ asset('images/logo-text.png') }}" alt="">
+        <img class="brand-title" src="{{ asset('images/logo-text.png') }}" alt="">
+    </a>
             <div class="nav-control">
                 <div class="hamburger">
                     <span class="line"></span><span class="line"></span><span class="line"></span>
                 </div>
             </div>
         </div>
-        <!--**********************************
-            Nav header end
-        ***********************************-->
+        <!-- Nav header end -->
 
-        <!--**********************************
-            Header start
-        ***********************************-->
+        <!-- Header start -->
         <div class="header">
             <div class="header-content">
                 <nav class="navbar navbar-expand">
@@ -92,54 +78,40 @@
                                         <li class="media dropdown-item">
                                             <span class="success"><i class="ti-user"></i></span>
                                             <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>Martin</strong> has added a <strong>customer</strong> Successfully
-                                                    </p>
-                                                </a>
+                                                <a href="#"><p><strong>Martin</strong> has added a <strong>customer</strong> Successfully</p></a>
                                             </div>
                                             <span class="notify-time">3:20 am</span>
                                         </li>
                                         <li class="media dropdown-item">
                                             <span class="primary"><i class="ti-shopping-cart"></i></span>
                                             <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>Jennifer</strong> purchased Light Dashboard 2.0.</p>
-                                                </a>
+                                                <a href="#"><p><strong>Jennifer</strong> purchased Light Dashboard 2.0.</p></a>
                                             </div>
                                             <span class="notify-time">3:20 am</span>
                                         </li>
                                         <li class="media dropdown-item">
                                             <span class="danger"><i class="ti-bookmark"></i></span>
                                             <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>Robin</strong> marked a <strong>ticket</strong> as unsolved.
-                                                    </p>
-                                                </a>
+                                                <a href="#"><p><strong>Robin</strong> marked a <strong>ticket</strong> as unsolved.</p></a>
                                             </div>
                                             <span class="notify-time">3:20 am</span>
                                         </li>
                                         <li class="media dropdown-item">
                                             <span class="primary"><i class="ti-heart"></i></span>
                                             <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>David</strong> purchased Light Dashboard 1.0.</p>
-                                                </a>
+                                                <a href="#"><p><strong>David</strong> purchased Light Dashboard 1.0.</p></a>
                                             </div>
                                             <span class="notify-time">3:20 am</span>
                                         </li>
                                         <li class="media dropdown-item">
                                             <span class="success"><i class="ti-image"></i></span>
                                             <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong> James.</strong> has added a<strong>customer</strong> Successfully
-                                                    </p>
-                                                </a>
+                                                <a href="#"><p><strong>James.</strong> has added a <strong>customer</strong> Successfully</p></a>
                                             </div>
                                             <span class="notify-time">3:20 am</span>
                                         </li>
                                     </ul>
-                                    <a class="all-notification" href="#">See all notifications <i
-                                            class="ti-arrow-right"></i></a>
+                                    <a class="all-notification" href="#">See all notifications <i class="ti-arrow-right"></i></a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown header-profile">
@@ -147,18 +119,21 @@
                                     <i class="mdi mdi-account"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="./app-profile.html" class="dropdown-item">
+                                    <a href="{{ url('app-profile.html') }}" class="dropdown-item">
                                         <i class="icon-user"></i>
                                         <span class="ml-2">Profile </span>
                                     </a>
-                                    <a href="./email-inbox.html" class="dropdown-item">
+                                    <a href="{{ url('email-inbox.html') }}" class="dropdown-item">
                                         <i class="icon-envelope-open"></i>
                                         <span class="ml-2">Inbox </span>
                                     </a>
-                                    <a href="./page-login.html" class="dropdown-item">
-                                        <i class="icon-key"></i>
-                                        <span class="ml-2">Logout </span>
-                                    </a>
+                                    <form method="POST" action="{{ route('logout') }}" class="dropdown-item">
+                                        @csrf
+                                        <button type="submit" class="btn btn-link">
+                                            <i class="icon-key"></i>
+                                            <span class="ml-2">Logout </span>
+                                        </button>
+                                    </form>
                                 </div>
                             </li>
                         </ul>
@@ -166,51 +141,45 @@
                 </nav>
             </div>
         </div>
-        <!--**********************************
-            Header end ti-comment-alt
-        ***********************************-->
+        <!-- Header end -->
 
-        <!--**********************************
-            Sidebar start
-        ***********************************-->
+        <!-- Sidebar start -->
         <div class="quixnav">
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first">Main Menu</li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-single-04"></i><span class="nav-text">Dashboard</span></a>
+                    <li>
+                        <a class="has-arrow" href="javascript:void(0)" aria-expanded="false">
+                            <i class="icon icon-single-04"></i><span class="nav-text">CRUD</span>
+                        </a>
                         <ul aria-expanded="false">
-                            <li><a href="index.php">Dashboard</a></li>
+                            <li><a href="{{ route('admin.users.index') }}">User crud</a></li>
                         </ul>
                     </li>
                     <li class="nav-label">Table</li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-layout-25"></i><span class="nav-text">Table</span></a>
+                    <li>
+                        <a class="has-arrow" href="javascript:void(0)" aria-expanded="false">
+                            <i class="icon icon-layout-25"></i><span class="nav-text">Table</span>
+                        </a>
                         <ul aria-expanded="false">
                             <li><a href="?pages=crud_native&aksi=tampil">Datatable</a></li>
                         </ul>
                     </li>
-
                     <li class="nav-label">Extra</li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-single-copy-06"></i><span class="nav-text">Pages</span></a>
+                    <li>
+                        <a class="has-arrow" href="javascript:void(0)" aria-expanded="false">
+                            <i class="icon icon-single-copy-06"></i><span class="nav-text">Pages</span>
+                        </a>
                         <ul aria-expanded="false">
-                            <li><a href="./page-register.html">Register</a></li>
-                            <li><a href="./page-login.html">Login</a></li>
+                            <li><a href="{{ url('page-register.html') }}">Register</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
-
-
         </div>
-        <!--**********************************
-            Sidebar end
-        ***********************************-->
+        <!-- Sidebar end -->
 
-        <!--**********************************
-            Content body start
-        ***********************************-->
+        <!-- Content body start -->
         <div class="content-body">
             <div class="container-fluid">
                 <div class="row page-titles mx-0">
@@ -228,75 +197,40 @@
                     </div>
                 </div>
 
-                    
+                @yield('content')
 
+            </div>
+        </div>
+        <!-- Content body end -->
 
-        <!--**********************************
-            Content body end
-        ***********************************-->
-
-
-        <!--**********************************
-            Footer start
-        ***********************************-->
+        <!-- Footer start -->
         <div class="footer">
             <div class="copyright">
                 <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p> 
+                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
             </div>
         </div>
-        <!--**********************************
-            Footer end
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button start
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button end
-        ***********************************-->
-
+        <!-- Footer end -->
 
     </div>
-    <!--**********************************
-        Main wrapper end
-    ***********************************-->
+    <!-- Main wrapper end -->
 
-    <!--**********************************
-        Scripts
-    ***********************************-->
-    <!-- Required vendors -->
-    <script src="./vendor/global/global.min.js"></script>
-    <script src="./js/quixnav-init.js"></script>
-    <script src="./js/custom.min.js"></script>
-
-
-    <!-- Vectormap -->
-    <script src="./vendor/raphael/raphael.min.js"></script>
-    <script src="./vendor/morris/morris.min.js"></script>
-
-
-    <script src="./vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="./vendor/chart.js/Chart.bundle.min.js"></script>
-
-    <script src="./vendor/gaugeJS/dist/gauge.min.js"></script>
-
-    <!--  flot-chart js -->
-    <script src="./vendor/flot/jquery.flot.js"></script>
-    <script src="./vendor/flot/jquery.flot.resize.js"></script>
-
-    <!-- Owl Carousel -->
-    <script src="./vendor/owl-carousel/js/owl.carousel.min.js"></script>
-
-    <!-- Counter Up -->
-    <script src="./vendor/jqvmap/js/jquery.vmap.min.js"></script>
-    <script src="./vendor/jqvmap/js/jquery.vmap.usa.js"></script>
-    <script src="./vendor/jquery.counterup/jquery.counterup.min.js"></script>
-
-
-    <script src="./js/dashboard/dashboard-1.js"></script>
-
+    <!-- Scripts -->
+    <script src="{{ asset('vendor/global/global.min.js') }}"></script>
+    <script src="{{ asset('js/quixnav-init.js') }}"></script>
+    <script src="{{ asset('js/custom.min.js') }}"></script>
+    <script src="{{ asset('vendor/raphael/raphael.min.js') }}"></script>
+    <script src="{{ asset('vendor/morris/morris.min.js') }}"></script>
+    <script src="{{ asset('vendor/circle-progress/circle-progress.min.js') }}"></script>
+    <script src="{{ asset('vendor/chart.js/Chart.bundle.min.js') }}"></script>
+    <script src="{{ asset('vendor/gaugeJS/dist/gauge.min.js') }}"></script>
+    <script src="{{ asset('vendor/flot/jquery.flot.js') }}"></script>
+    <script src="{{ asset('vendor/flot/jquery.flot.resize.js') }}"></script>
+    <script src="{{ asset('vendor/owl-carousel/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('vendor/jqvmap/js/jquery.vmap.min.js') }}"></script>
+    <script src="{{ asset('vendor/jqvmap/js/jquery.vmap.usa.js') }}"></script>
+    <script src="{{ asset('vendor/jquery.counterup/jquery.counterup.min.js') }}"></script>
+    <script src="{{ asset('js/dashboard/dashboard-1.js') }}"></script>
 </body>
 
 </html>
