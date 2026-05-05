@@ -114,28 +114,28 @@
                                     <a class="all-notification" href="#">See all notifications <i class="ti-arrow-right"></i></a>
                                 </div>
                             </li>
-                            <li class="nav-item dropdown header-profile">
-                                <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                    <i class="mdi mdi-account"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="{{ url('app-profile.html') }}" class="dropdown-item">
-                                        <i class="icon-user"></i>
-                                        <span class="ml-2">Profile </span>
-                                    </a>
-                                    <a href="{{ url('email-inbox.html') }}" class="dropdown-item">
-                                        <i class="icon-envelope-open"></i>
-                                        <span class="ml-2">Inbox </span>
-                                    </a>
-                                    <form method="POST" action="{{ route('logout') }}" class="dropdown-item">
-                                        @csrf
-                                        <button type="submit" class="btn btn-link">
-                                            <i class="icon-key"></i>
-                                            <span class="ml-2">Logout </span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </li>
+<li class="nav-item dropdown header-profile">
+    <a class="nav-link" href="#" role="button" data-toggle="dropdown">
+        <i class="mdi mdi-account"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right">
+        <a href="{{ url('app-profile.html') }}" class="dropdown-item">
+            <i class="icon-user"></i>
+            <span class="ml-2">Profile</span>
+        </a>
+        <a href="{{ url('email-inbox.html') }}" class="dropdown-item">
+            <i class="icon-envelope-open"></i>
+            <span class="ml-2">Inbox</span>
+        </a>
+        <form method="POST" action="{{ route('logout') }}" class="dropdown-item p-0">
+            @csrf
+            <button type="submit" class="dropdown-item" style="background: none; border: none; width: 100%; text-align: left;">
+                <i class="icon-key"></i>
+                <span class="ml-2">Logout</span>
+            </button>
+        </form>
+    </div>
+</li>
                         </ul>
                     </div>
                 </nav>
@@ -147,33 +147,17 @@
         <div class="quixnav">
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
-                    <li class="nav-label first">Main Menu</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void(0)" aria-expanded="false">
-                            <i class="icon icon-single-04"></i><span class="nav-text">CRUD</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="{{ route('admin.users.index') }}">User crud</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-label">Table</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void(0)" aria-expanded="false">
-                            <i class="icon icon-layout-25"></i><span class="nav-text">Table</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="?pages=crud_native&aksi=tampil">Datatable</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-label">Extra</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void(0)" aria-expanded="false">
-                            <i class="icon icon-single-copy-06"></i><span class="nav-text">Pages</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="{{ url('page-register.html') }}">Register</a></li>
-                        </ul>
-                    </li>
+    @auth
+        @if(Auth::user()->role == 'admin')
+            @include('partials.sidebar_admin')@csrf
+        @elseif(Auth::user()->role == 'petugas')
+            @include('partials.sidebar_petugas')
+        @elseif(Auth::user()->role == 'peminjam')
+            @include('partials.sidebar_peminjam')
+        @endif
+    @endauth
+</ul>
+</li>
                 </ul>
             </div>
         </div>

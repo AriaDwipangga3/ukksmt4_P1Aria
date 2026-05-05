@@ -1,29 +1,24 @@
 <?php
 
-namespace App\Http\Middleware;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Closure;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Response;
-
-class RoleMiddleware
+return new class extends Migration
 {
-    /**
-     * Handle an incoming request.
-     */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function up()
     {
-        // Cek apakah user sudah login
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
-        // Cek apakah role user sesuai dengan yang diizinkan
-        if (Auth::user()->role !== $role) {
-            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
-        }
-
-        return $next($request);
+        Schema::table('users', function (Blueprint $table) {
+            if (!Schema::hasColumn('users', 'role')) {
+                $table->enum('role', ['admin', 'petugas', 'peminjam'])->default('peminjam');
+            }
+        });
     }
-}
+
+    public function down()
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
+        });
+    }
+};
