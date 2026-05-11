@@ -4,68 +4,54 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\ActivityLogger;
 
 class LoginController extends Controller
 {
-    /**
-     * Tampilkan halaman login
-     */
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    /**
-     * Proses login
-     */
     public function login(Request $request)
     {
-        // Validasi input
         $request->validate([
             'email'    => 'required|email',
             'password' => 'required|string',
         ]);
 
-        // Ambil kredensial
         $credentials = $request->only('email', 'password');
 
-        // Coba login
         if (Auth::attempt($credentials, $request->filled('remember'))) {
-            // Regenerasi session biar aman
             $request->session()->regenerate();
-
-            // Ambil user yang login
             $user = Auth::user();
 
-            // Redirect berdasarkan role
+            // Catat log login
+            ActivityLogger::log('login', 'auth', 'User login', ['email' => $user->email]);
+
             switch ($user->role) {
-                case 'admin':
-                    return redirect()->route('admin.dashboard');
-                case 'petugas':
-                    return redirect()->route('petugas.dashboard');
-                case 'peminjam':
-                    return redirect()->route('peminjam.dashboard');
+                case 'admin': return redirect()->route('admin.dashboard');
+                case 'petugas': return redirect()->route('petugas.dashboard');
+                case 'peminjam': return redirect()->route('peminjam.dashboard');
                 default:
-                    // Role tidak dikenal -> logout dan error
                     Auth::logout();
-                    return back()->withErrors(['email' => 'Role tidak valid. Hubungi admin.']);
+                    return back()->withErrors(['email' => 'Role tidak valid.']);
             }
         }
 
-        // Jika login gagal
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->onlyInput('email');
+        return back()->withErrors(['email' => 'Email atau password salah.'])->onlyInput('email');
     }
 
-    /**
-     * Logout
-     */
-public function logout(Request $request)
-{
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
-    return redirect()->route('login'); // ← pakai route name, bukan URL manual
-}
+    public function logout(Request $request)
+    {
+        // Catat log logout sebelum logout
+        if (Auth::check()) {
+            ActivityLogger::log('logout', 'auth', 'User logout');
+        }
+
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login');
+    }
 }

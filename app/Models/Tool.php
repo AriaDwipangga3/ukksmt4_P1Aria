@@ -18,4 +18,14 @@ class Tool extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    // di app/Models/Tool.php
+public function units()
+{
+    return $this->hasMany(ToolUnit::class);
+}
+
+public function availableUnits()
+{
+    return $this->units()->where('status', 'available');
+}
 }

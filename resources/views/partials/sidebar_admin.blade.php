@@ -16,4 +16,4 @@
     </ul>
 </li>
 
-<li><a href="#"><i class="icon-clock"></i><span class="nav-text">Log Aktivitas</span></a></li>
+<li><a href="{{ route('admin.activity_logs.index') }}"><i class="icon-clock"></i><span class="nav-text">Log Aktivitas</span></a></li>

@@ -27,7 +27,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">✍️ Ajukan Peminjaman</h5>
                                     <p class="card-text">Pinjam alat yang tersedia.</p>
-                                    <a href="{{ route('peminjam.loans.create') }}" class="btn btn-light">Ajukan</a>
+                                    
                                 </div>
                             </div>
                         </div>

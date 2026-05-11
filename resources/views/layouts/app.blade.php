@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Focus - Bootstrap Admin Dashboard</title>
+    <title>Peminjaman Alat - Bootstrap Admin Dashboard</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}">
     <link rel="stylesheet" href="{{ asset('vendor/owl-carousel/css/owl.carousel.min.css') }}">
@@ -144,25 +144,22 @@
         <!-- Header end -->
 
         <!-- Sidebar start -->
-        <div class="quixnav">
-            <div class="quixnav-scroll">
-                <ul class="metismenu" id="menu">
-    @auth
-        @if(Auth::user()->role == 'admin')
-            @include('partials.sidebar_admin')@csrf
-        @elseif(Auth::user()->role == 'petugas')
-            @include('partials.sidebar_petugas')
-        @elseif(Auth::user()->role == 'peminjam')
-            @include('partials.sidebar_peminjam')
-        @endif
-    @endauth
-</ul>
-</li>
-                </ul>
-            </div>
-        </div>
-        <!-- Sidebar end -->
-
+<div class="quixnav">
+    <div class="quixnav-scroll">
+        <ul class="metismenu" id="menu">
+            @auth
+                @if(Auth::user()->role == 'admin')
+                    @include('partials.sidebar_admin')
+                @elseif(Auth::user()->role == 'petugas')
+                    @include('partials.sidebar_petugas')
+                @elseif(Auth::user()->role == 'peminjam')
+                    @include('partials.sidebar_peminjam')
+                @endif
+            @endauth
+        </ul>
+    </div>
+</div>
+<!-- Sidebar end -->
         <!-- Content body start -->
         <div class="content-body">
             <div class="container-fluid">
