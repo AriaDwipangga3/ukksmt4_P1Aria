@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Peminjaman Alat - Bootstrap Admin Dashboard</title>
+    <title>Sistem Peminjaman Alat</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}">
     <link rel="stylesheet" href="{{ asset('vendor/owl-carousel/css/owl.carousel.min.css') }}">
@@ -37,9 +37,8 @@
             (Auth::user()->role == 'petugas' ? route('petugas.dashboard') : route('peminjam.dashboard'))) 
             : route('login') 
     }}" class="brand-logo">
-        <img class="logo-abbr" src="{{ asset('images/logo.png') }}" alt="">
-        <img class="logo-compact" src="{{ asset('images/logo-text.png') }}" alt="">
-        <img class="brand-title" src="{{ asset('images/logo-text.png') }}" alt="">
+            <img class="logo-abbr" src="{{ asset('images/logo.png') }}" alt="">
+    <span class="brand-title">Peminjaman Alat</span>
     </a>
             <div class="nav-control">
                 <div class="hamburger">
@@ -68,11 +67,7 @@
                         </div>
 
                         <ul class="navbar-nav header-right">
-                            <li class="nav-item dropdown notification_dropdown">
-                                <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                    <i class="mdi mdi-bell"></i>
-                                    <div class="pulse-css"></div>
-                                </a>
+
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <ul class="list-unstyled">
                                         <li class="media dropdown-item">
@@ -116,22 +111,13 @@
                             </li>
 <li class="nav-item dropdown header-profile">
     <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-        <i class="mdi mdi-account"></i>
+        <i class="mdi mdi-account"></i> {{ Auth::user()->name }}
     </a>
     <div class="dropdown-menu dropdown-menu-right">
-        <a href="{{ url('app-profile.html') }}" class="dropdown-item">
-            <i class="icon-user"></i>
-            <span class="ml-2">Profile</span>
-        </a>
-        <a href="{{ url('email-inbox.html') }}" class="dropdown-item">
-            <i class="icon-envelope-open"></i>
-            <span class="ml-2">Inbox</span>
-        </a>
-        <form method="POST" action="{{ route('logout') }}" class="dropdown-item p-0">
+        <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="dropdown-item" style="background: none; border: none; width: 100%; text-align: left;">
-                <i class="icon-key"></i>
-                <span class="ml-2">Logout</span>
+            <button type="submit" class="dropdown-item">
+                <i class="icon-key"></i> Logout
             </button>
         </form>
     </div>
@@ -164,18 +150,57 @@
         <div class="content-body">
             <div class="container-fluid">
                 <div class="row page-titles mx-0">
-                    <div class="col-sm-6 p-md-0">
-                        <div class="welcome-text">
-                            <h4>Hi, welcome back!</h4>
-                            <p class="mb-0">Your business dashboard template</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">.</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Bootstrap</a></li>
-                        </ol>
-                    </div>
+<div class="welcome-text">
+    @auth
+        <h4>Selamat datang, <strong>{{ Auth::user()->name }}</strong>!</h4>
+        <p class="mb-0">
+            Anda login sebagai 
+            <strong>
+                @if(Auth::user()->role == 'admin')
+                    Administrator
+                @elseif(Auth::user()->role == 'petugas')
+                    Petugas
+                @else
+                    Peminjam
+                @endif
+            </strong>
+        </p>
+    @else
+        <h4>Hi, welcome back!</h4>
+        <p class="mb-0">Your business dashboard template</p>
+    @endauth
+</div>
+<div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{ 
+                Auth::check() ? 
+                    (Auth::user()->role == 'admin' ? route('admin.dashboard') : 
+                    (Auth::user()->role == 'petugas' ? route('petugas.dashboard') : route('peminjam.dashboard'))) 
+                    : url('/') 
+            }}">
+                <i class="ti-dashboard"></i> Dashboard
+            </a>
+        </li>
+        @php
+            $segments = request()->segments();
+            $url = '';
+        @endphp
+        @foreach($segments as $key => $segment)
+            @php
+                $url .= '/' . $segment;
+                $title = ucfirst(str_replace(['-', '_'], ' ', $segment));
+            @endphp
+            @if(!$loop->last)
+                <li class="breadcrumb-item">
+                    <a href="{{ url($url) }}">{{ $title }}</a>
+                </li>
+            @else
+                <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
+            @endif
+        @endforeach
+    </ol>
+</div>
                 </div>
 
                 @yield('content')
@@ -187,8 +212,7 @@
         <!-- Footer start -->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
+                
             </div>
         </div>
         <!-- Footer end -->

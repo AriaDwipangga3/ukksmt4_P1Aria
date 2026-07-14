@@ -23,10 +23,9 @@
                         <option value="lost">Hilang</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>Denda (Rp)</label>
-                    <input type="number" name="fine" class="form-control" required min="0">
-                </div>
+                <label>Denda (Rupiah)</label>
+<input type="number" name="fine" class="form-control" placeholder="Contoh: 50000" required>
+<small class="text-muted">Masukkan nominal denda sesuai aturan yang berlaku.</small>
                 <div class="form-group">
                     <label>Point Pelanggaran (opsional)</label>
                     <input type="number" name="score" class="form-control" min="0">

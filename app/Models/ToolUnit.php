@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,8 +19,23 @@ class ToolUnit extends Model
         return $this->belongsTo(Tool::class);
     }
 
-    public function loans()
+    // Cek apakah unit tersedia
+    public function isAvailable()
     {
-        return $this->hasMany(Loan::class, 'unit_code', 'code');
+        return $this->status === 'available';
+    }
+
+    // Ubah status menjadi dipinjam
+    public function setLent()
+    {
+        $this->status = 'borrowed';
+        $this->save();
+    }
+
+    // Ubah status menjadi tersedia
+    public function setAvailable()
+    {
+        $this->status = 'available';
+        $this->save();
     }
 }

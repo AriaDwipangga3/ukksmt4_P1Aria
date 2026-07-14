@@ -5,14 +5,27 @@
         <div class="card">
             <div class="card-header"><h4>{{ $tool->name }}</h4></div>
             <div class="card-body">
-                <p>Kategori: {{ $tool->category->name ?? '-' }}</p>
-                <p>Harga: Rp {{ number_format($tool->price) }}</p>
-                <p>Deskripsi: {{ $tool->description }}</p>
-                <p>Unit tersedia: 
+                <p><strong>Kategori:</strong> {{ $tool->category->name ?? '-' }}</p>
+                <p><strong>Harga:</strong> Rp {{ number_format($tool->price) }}</p>
+                <p><strong>Deskripsi:</strong> {{ $tool->description }}</p>
+                <hr>
+                <h5>Status Unit Alat</h5>
+                <ul>
+                    <li><span class="text-success">Tersedia:</span> {{ $tool->units->where('status','available')->count() }} unit</li>
+                    <li><span class="text-primary">Sedang dipinjam:</span> {{ $tool->units->where('status','borrowed')->count() }} unit</li>
                     @php
-                        $availableUnits = $tool->units->where('status','available')->pluck('code')->implode(', ');
+                        $damaged = $tool->units->where('status','damaged');
+                        $maintenance = $tool->units->where('status','maintenance');
                     @endphp
-                    {{ $availableUnits ?: 'Tidak ada unit tersedia' }}
+                    @if($damaged->count() > 0)
+                        <li><span class="text-danger">Rusak:</span> {{ $damaged->count() }} unit</li>
+                    @endif
+                    @if($maintenance->count() > 0)
+                        <li><span class="text-warning">Perawatan:</span> {{ $maintenance->count() }} unit</li>
+                    @endif
+                </ul>
+                <p><strong>Kode unit yang tersedia:</strong> 
+                    {{ $tool->units->where('status','available')->pluck('code')->implode(', ') ?: 'Tidak ada' }}
                 </p>
             </div>
         </div>
@@ -21,13 +34,14 @@
         <div class="card">
             <div class="card-header"><h4>Form Peminjaman</h4></div>
             <div class="card-body">
+                @if($tool->units->where('status','available')->count() > 0)
                 <form action="{{ route('peminjam.loans.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="tool_id" value="{{ $tool->id }}">
                     <div class="form-group">
                         <label>Pilih Unit Alat</label>
                         <select name="unit_code" class="form-control" required>
-                            <option value="">-- Pilih --</option>
+                            <option value="">-- Pilih Unit --</option>
                             @foreach($tool->units->where('status','available') as $unit)
                                 <option value="{{ $unit->code }}">{{ $unit->code }}</option>
                             @endforeach
@@ -51,6 +65,9 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Ajukan Peminjaman</button>
                 </form>
+                @else
+                <div class="alert alert-warning">⚠️ Maaf, saat ini tidak ada unit alat yang tersedia untuk dipinjam.</div>
+                @endif
             </div>
         </div>
     </div>

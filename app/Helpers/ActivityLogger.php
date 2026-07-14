@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Request;
 
 class ActivityLogger
 {
-    public static function log($action, $module = null, $description = null, $meta = null)
+    public static function log($action, $module, $description, $meta = null)
     {
         ActivityLog::create([
-            'user_id' => auth()->id(),
-            'action' => $action,
-            'module' => $module,
+            'user_id'     => auth()->id(),
+            'action'      => $action,
+            'module'      => $module,
             'description' => $description,
-            'meta' => $meta ? json_encode($meta) : null,
-            'ip_address' => Request::ip(),
+            'meta'        => $meta ? json_encode($meta) : null,
+            'ip_address'  => Request::ip(),
         ]);
     }
 }

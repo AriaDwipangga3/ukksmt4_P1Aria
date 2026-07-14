@@ -13,4 +13,5 @@ class ActivityLogController extends Controller
         $logs = ActivityLog::with('user')->latest()->paginate(20);
         return view('admin.activity_logs.index', compact('logs'));
     }
+    
 }

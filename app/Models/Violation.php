@@ -14,10 +14,6 @@ class Violation extends Model
         'description', 'status', 'settled_by', 'settled_at'
     ];
 
-    protected $casts = [
-        'settled_at' => 'datetime',
-    ];
-
     public function loan()
     {
         return $this->belongsTo(Loan::class);
